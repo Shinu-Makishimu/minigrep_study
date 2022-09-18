@@ -3,13 +3,15 @@ use std::{env, fs};
 
 
 pub struct Config {
-    pub query: String,
-    pub file_path: String,
-    pub ignore_case: bool,
+    // structure for string, path and env parameter
+    pub query: String, //what wo find
+    pub file_path: String, // where
+    pub ignore_case: bool, // flag case sensitive
 }
 
 impl Config {
     pub fn build(args: &[String]) -> Result<Config, &'static str> {
+        // build structure or return error if not enough parameters in comm line
 
         if args.len() < 3 {
             return Err("not enough args!")
@@ -42,7 +44,9 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
 }
 
 pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
+    // find case sensitive string (query)
     let mut result: Vec<&str> = Vec::new();
+
     for line in contents.lines() {
         if line.contains(query) {
             result.push(line);
@@ -52,8 +56,11 @@ pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
 }
 
 pub fn search_case_insensitive<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
+    // find case sensitive string (query)
+
     let mut result: Vec<&str> = Vec::new();
     let query = query.to_lowercase();
+
     for line in contents.lines() {
         if line.to_lowercase().contains(&query) {
             result.push(line);
@@ -94,6 +101,4 @@ Trust me.";
             search_case_insensitive(query, contents
             ));
     }
-
-
 }
